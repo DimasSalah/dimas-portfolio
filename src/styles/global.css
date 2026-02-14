@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer utilities {
+  .data-portfolio-container {
+    @apply min-h-screen bg-white dark:bg-[#050505] text-[13px];
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-6 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 hover:text-black dark:hover:text-white transition-all duration-200 border-l-2 border-transparent hover:border-accent;
+  }
+
+  .sidebar-link.active {
+    @apply text-black dark:text-white border-accent bg-slate-50 dark:bg-slate-900/50;
+  }
+
+  .section-label {
+    @apply text-[10px] font-black uppercase tracking-[0.2em] text-black dark:text-white border-b-2 border-black dark:border-white mb-6 inline-block pb-1;
+  }
+
+  .metric-highlight {
+    @apply text-black dark:text-white font-bold border-b border-accent/40;
+  }
+
+  .tech-tag {
+    @apply text-[9px] font-bold uppercase border border-neutral-border dark:border-slate-800 px-1.5 py-0.5 rounded-sm text-slate-500;
+  }
+
+  .timeline-dot {
+    @apply absolute left-[-5px] top-2 w-2.5 h-2.5 bg-black dark:bg-white rounded-full border-2 border-white dark:border-[#050505] z-10;
+  }
+
+  .timeline-line {
+    @apply absolute left-0 top-0 bottom-0 w-px bg-slate-200 dark:bg-slate-800;
+  }
+
+  .nav-icon {
+    @apply text-[18px] opacity-70;
+  }
+}

@@ -1,0 +1,91 @@
+---
+/**
+ * Contact section component.
+ * Displays contact information and social links using branded SVG assets.
+ */
+import githubIcon from "../assets/github.svg";
+import linkedinIcon from "../assets/linkedin.svg";
+import upworkIcon from "../assets/upwork.svg";
+
+interface ContactLink {
+  iconAsset?: ImageMetadata;
+  iconName?: string; // Fallback for email if no SVG
+  label: string;
+  href: string;
+  isEmail?: boolean;
+}
+
+const contacts: ContactLink[] = [
+  {
+    iconName: "mail",
+    label: "dimassalah10@gmail.com",
+    href: "mailto:dimassalah10@gmail.com",
+    isEmail: true,
+  },
+  {
+    iconAsset: upworkIcon,
+    label: "Upwork",
+    href: "https://www.upwork.com/freelancers/~01f7920f4123d5e681?mp_source=share",
+  },
+  {
+    iconAsset: githubIcon,
+    label: "GitHub",
+    href: "https://github.com/dimassalah",
+  },
+  {
+    iconAsset: linkedinIcon,
+    label: "LinkedIn",
+    href: "https://www.linkedin.com/in/dimassalahuddin/",
+  },
+];
+---
+
+<section class="mb-24" id="contact">
+  <h2 class="section-label">Contact</h2>
+  <div class="mt-8">
+    <p
+      class="text-[14px] leading-relaxed text-slate-600 dark:text-slate-400 mb-8 max-w-2xl"
+    >
+      Interested in working together? Feel free to reach out directly via email
+      or check out my professional profiles.
+    </p>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-2xl">
+      {
+        contacts.map((contact) => (
+          <a
+            href={contact.href}
+            target={contact.isEmail ? "_self" : "_blank"}
+            rel={contact.isEmail ? "" : "noopener noreferrer"}
+            class="flex items-center gap-4 p-4 border border-slate-100 dark:border-slate-800 rounded-sm hover:border-accent/40 hover:bg-slate-50 dark:hover:bg-slate-900/50 transition-all duration-200 group"
+          >
+            <div class="w-10 h-10 flex items-center justify-center bg-slate-100 dark:bg-slate-800 rounded-full group-hover:bg-accent/10 transition-colors">
+              {contact.iconAsset ? (
+                <img
+                  src={contact.iconAsset.src}
+                  alt={contact.label}
+                  class="w-5 h-5 object-contain opacity-70 group-hover:opacity-100 transition-opacity"
+                />
+              ) : (
+                <span class="material-symbols-outlined text-slate-600 dark:text-slate-400 group-hover:text-accent transition-colors">
+                  {contact.iconName}
+                </span>
+              )}
+            </div>
+            <div>
+              <h3 class="text-xs font-bold text-black dark:text-white uppercase tracking-wider group-hover:text-accent transition-colors">
+                {contact.label}
+              </h3>
+              <span class="text-[10px] text-slate-400 font-medium">
+                {contact.isEmail ? "Send me an email" : "View Profile"}
+              </span>
+            </div>
+            <span class="material-symbols-outlined text-slate-300 ml-auto group-hover:translate-x-1 transition-transform text-sm">
+              arrow_forward
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</section>

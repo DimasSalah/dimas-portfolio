@@ -1,0 +1,35 @@
+---
+/**
+ * Portfolio Index Page
+ *
+ * Composes the full portfolio by importing and arranging
+ * Astro components within the Layout.
+ */
+import Layout from "../layouts/Layout.astro";
+import Sidebar from "../components/Sidebar.astro";
+import Header from "../components/Header.astro";
+import ExecutiveSummary from "../components/ExecutiveSummary.astro";
+import Services from "../components/Services.astro";
+import ProjectTimeline from "../components/ProjectTimeline.astro";
+import ProjectShowcase from "../components/ProjectShowcase.astro";
+import StackIndex from "../components/StackIndex.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="Portfolio - Dimas Salahuddin">
+  <div class="flex flex-col md:flex-row">
+    <Sidebar />
+
+    <main class="flex-1 md:ml-64 data-portfolio-container">
+      <div class="max-w-4xl mx-auto px-6 py-12 md:py-20 lg:px-16">
+        <Header />
+        <ExecutiveSummary />
+        <Services />
+        <ProjectTimeline />
+        <ProjectShowcase />
+        <StackIndex />
+        <Footer />
+      </div>
+    </main>
+  </div>
+</Layout>

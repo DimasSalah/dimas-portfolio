@@ -1,0 +1,688 @@
+---
+/**
+ * ProjectShowcase component.
+ * - Redesigned cards with gradient overlay, hover lift effects
+ * - Featured first project spans full width
+ * - 2-column grid on mobile, 3 on desktop
+ * - Scroll-reveal stagger animations via IntersectionObserver
+ * - Modal closes on backdrop click + Escape key
+ */
+import mealwizardImg from "../assets/images/mealwizard-portfolio.png";
+import gydaImg from "../assets/images/gyda-portofolio.png";
+import infonixImg from "../assets/images/infonix-portofolio.png";
+import attendifyImg from "../assets/images/attendify-portofolio.png";
+import estimatorImg from "../assets/images/estimator-portofolio.png";
+import kuriaImg from "../assets/images/kuria-portofolio.png";
+import jelajahinImg from "../assets/images/jelajahin-portofolio.png";
+import mindeaseImg from "../assets/images/mindease-portofolio.png";
+import tatarupiahImg from "../assets/images/tatarupiah-portofolio.png";
+
+interface ProjectLink {
+  type: "appstore" | "playstore" | "web";
+  url: string;
+}
+
+interface Project {
+  id: string;
+  name: string;
+  tagline: string;
+  description: string;
+  banner: string;
+  contribution: string;
+  platforms: string[];
+  links: ProjectLink[];
+  tags: string[];
+  whatIDid: string[];
+}
+
+const projects: Project[] = [
+  {
+    id: "eazytask",
+    name: "Eazytask",
+    tagline: "Workforce Management System",
+    description:
+      "Mobile application for employee shift management, attendance tracking, automated payroll calculation, and company revenue monitoring. Used by multiple companies to streamline daily operations.",
+    banner:
+      "https://placehold.co/800x400/0a0a0a/00FF66?text=Eazytask&font=inter",
+    contribution: "Feature Development & Maintenance",
+    platforms: ["Android", "iOS"],
+    links: [
+      {
+        type: "appstore",
+        url: "https://apps.apple.com/us/app/eazytask/id1642332032",
+      },
+      {
+        type: "playstore",
+        url: "https://play.google.com/store/apps/details?id=com.ni.Easytask&hl=en-US",
+      },
+    ],
+    tags: ["Flutter", "Provider", "REST API", "Notification"],
+    whatIDid: [
+      "Improved management features including shift scheduling and attendance tracking",
+      "Managed deployment process to App Store and Play Store",
+      "Resolved production issues and optimized application performance",
+    ],
+  },
+  {
+    id: "mealwizard",
+    name: "MealWizard",
+    tagline: "AI-Powered Meal Planning",
+    description:
+      "Smart nutrition app that generates personalized meal plans based on user goals — weight gain, loss, or maintenance. Delivers AI-driven food recommendations aligned with calorie and macronutrient targets.",
+    banner: mealwizardImg.src,
+    contribution: "Full Lifecycle",
+    platforms: ["iOS"],
+    links: [
+      {
+        type: "appstore",
+        url: "https://apps.apple.com/gb/app/mealwizard-ai-meal-planner/id6737711677",
+      },
+    ],
+    tags: [
+      "Flutter",
+      "Provider",
+      "SaaS",
+      "Firebase",
+      "AI Integration",
+      "ChatGPT API",
+      "Nutrition",
+    ],
+    whatIDid: [
+      "Developed the mobile application and implemented personalized meal generation features",
+      "Integrated AI services to generate nutrition-based recommendations",
+      "Implemented A/B testing to evaluate feature performance and user engagement",
+      "Integrated in-app purchases, subscription logic, and paywall using RevenueCat",
+      "Handled API communication and structured meal plan and nutrition data processing",
+    ],
+  },
+  {
+    id: "gyda-ai",
+    name: "Gyda AI",
+    tagline: "AI Travel Assistant",
+    description:
+      "Web-based AI travel assistant that helps tourists discover destinations through interactive chat. Provides personalized recommendations for must-visit attractions based on user interests and travel preferences.",
+    banner: gydaImg.src,
+    contribution: "Full Lifecycle",
+    platforms: ["Web"],
+    links: [{ type: "web", url: "#" }],
+    tags: ["Flutter Web", "BLoC", "AI Chat", "REST API", "Travel"],
+    whatIDid: [
+      "Built the frontend application and implemented interactive chatbot flows",
+      "Structured destination data and improved response relevance through prompt tuning",
+      "Optimized UI interactions for a smooth conversational experience",
+    ],
+  },
+  {
+    id: "infonix",
+    name: "Infonix",
+    tagline: "IoT Monitoring System",
+    description:
+      "Cross-platform application for monitoring temperature and device status using ThingsBoard API. Features real-time alerts and geographic visualization across Android, iOS, and Web.",
+    banner: infonixImg.src,
+    contribution: "Full Lifecycle",
+    platforms: ["Android", "iOS", "Web"],
+    links: [
+      {
+        type: "appstore",
+        url: "https://apps.apple.com/pl/app/infonix/id6742646840",
+      },
+      {
+        type: "playstore",
+        url: "https://play.google.com/store/apps/details?id=com.infonix.app&hl=en-US",
+      },
+      { type: "web", url: "https://app.infonix.de" },
+    ],
+    tags: ["Flutter", "GetX", "IoT", "ThingsBoard", "Real-time", "REST API"],
+    whatIDid: [
+      "Developed cross-platform mobile and web applications",
+      "Integrated ThingsBoard API for real-time temperature and device monitoring",
+      "Implemented alert system notification for abnormal conditions",
+      "Built map-based visualization for geographic device tracking",
+      "Optimized real-time data rendering performance",
+    ],
+  },
+  {
+    id: "botevo",
+    name: "Botevo",
+    tagline: "Industrial IoT Platform",
+    description:
+      "Enterprise-level monitoring system for factory gates and operational equipment. Includes reporting tools, technician scheduling, verification workflows, and real-time operational tracking.",
+    banner: "https://placehold.co/600x400/0a0a0a/00FF66?text=Botevo&font=inter",
+    contribution: "Feature Development & Maintenance",
+    platforms: ["Android", "iOS"],
+    links: [
+      {
+        type: "appstore",
+        url: "https://apps.apple.com/de/app/botevo/id6466261988",
+      },
+      {
+        type: "playstore",
+        url: "https://play.google.com/store/apps/details?id=com.botevo.app&hl=en-US",
+      },
+    ],
+    tags: [
+      "Flutter",
+      "GetX",
+      "IoT",
+      "Enterprise",
+      "Reporting",
+      "REST API",
+      "WebSocket",
+    ],
+    whatIDid: [
+      "Developed enterprise-level monitoring features for operational equipment",
+      "Implemented reporting and technician device assignment",
+      "Improved map integration for device and asset visualization",
+      "Collaborated with international stakeholders to align features with business needs",
+    ],
+  },
+  {
+    id: "kuria",
+    name: "Kuria",
+    tagline: "Custom Mobile Solution",
+    description:
+      "Scalable mobile application tailored to client-specific operational needs, focusing on usability and performance optimization.",
+    banner: kuriaImg.src,
+    contribution: "Full Lifecycle",
+    platforms: ["Android"],
+    links: [],
+    tags: ["Flutter", "GetX", "Custom Solution", "Performance"],
+    whatIDid: [
+      "Built internal mobile tool for automated concrete price calculation",
+      "Implemented pricing formula logic and validation mechanisms",
+      "Reduced manual calculation errors through system automation",
+      "Ensured accuracy and reliability of output results",
+    ],
+  },
+  {
+    id: "jelajahin",
+    name: "Jelajahin",
+    tagline: "Local Tourism Discovery",
+    description:
+      "Mobile application showcasing tourist destinations in Kendal, Central Java, Indonesia. Helps users explore local attractions with structured content and intuitive navigation.",
+    banner: jelajahinImg.src,
+    contribution: "Full Lifecycle",
+    platforms: ["Android"],
+    links: [],
+    tags: ["Flutter", "Riverpod", "Tourism", "Maps", "Navigation", "Firebase"],
+    whatIDid: [
+      "Developed mobile application showcasing regional tourism destinations",
+      "Structured and managed local destination content data",
+      "Implemented filtering and navigation features for easier exploration",
+      "Integrated Google Maps API for location-based discovery",
+    ],
+  },
+  {
+    id: "mindease",
+    name: "Mindease",
+    tagline: "Mental Health Platform",
+    description:
+      "AI-assisted mental health platform featuring real-time chat and intelligent chatbot support to improve accessibility and engagement.",
+    banner: mindeaseImg.src,
+    contribution: "Full Lifecycle",
+    platforms: ["Android"],
+    links: [],
+    tags: ["Flutter", "AI", "Mental Health", "Chat"],
+    whatIDid: [
+      "Led development of real-time chat functionality",
+      "Integrated AI chatbot features for user interaction",
+      "Implemented WebSocket-based communication",
+      "Coordinated development workflow across team members as team leader",
+    ],
+  },
+  {
+    id: "tatarupiah",
+    name: "Tatarupiah",
+    tagline: "Financial Management for Micro Business",
+    description:
+      "Application built to assist street vendors and small merchants in managing daily finances, enhanced with AI-driven financial insights and chat bot",
+    banner: tatarupiahImg.src,
+    contribution: "Full Lifecycle",
+    platforms: ["Android"],
+    links: [],
+    tags: ["Flutter", "GetX", "AI"],
+    whatIDid: [
+      "Led development of financial tracking features for micro businesses",
+      "Implemented daily income and expense management system",
+      "Integrated AI-driven financial recommendation logic",
+      "Ensured performance optimization and smooth user experience",
+    ],
+  },
+  {
+    id: "attendify",
+    name: "Attendify.id",
+    tagline: "Employee Attendance System",
+    description:
+      "Comprehensive workforce management solution including attendance tracking, leave requests, overtime monitoring, performance analytics, and digital logbooks.",
+    banner: attendifyImg.src,
+    contribution: "Full Lifecycle",
+    platforms: ["Android"],
+    links: [],
+    tags: ["Flutter", "GetX", "REST API"],
+    whatIDid: [
+      "Contributed to development of attendance, leave, and overtime modules",
+      "Integrated backend APIs for workforce data processing",
+      "Translated UI designs from Figma into production-ready code",
+    ],
+  },
+  {
+    id: "estimator",
+    name: "Estimator.id",
+    tagline: "Construction Cost Estimation",
+    description:
+      "Application designed to accelerate Bill of Quantities calculations with efficient API integration for construction professionals.",
+    banner: estimatorImg.src,
+    contribution: "Feature Development & Maintenance",
+    platforms: ["Android"],
+    links: [],
+    tags: ["Flutter", "GetX", "REST API"],
+    whatIDid: [
+      "Translated UI designs from Figma into functional code with business logic",
+      "Coordinated with the team for feature alignment and delivery",
+    ],
+  },
+];
+
+const featured = projects[0];
+const restProjects = projects.slice(1);
+---
+
+<section class="mb-24" id="projects">
+  <h2 class="section-label">Projects</h2>
+
+  <!-- Featured Project (first project, full-width) -->
+  <button
+    class="project-card reveal-card group text-left w-full mt-6 mb-5 cursor-pointer"
+    data-project-id={featured.id}
+    style="--reveal-delay: 0ms;"
+  >
+    <div
+      class="relative overflow-hidden rounded-sm border border-slate-100 dark:border-slate-800 hover:border-accent/40 transition-all duration-300 hover:shadow-lg hover:shadow-accent/5"
+    >
+      <!-- Featured Banner -->
+      <div
+        class="aspect-[21/9] sm:aspect-[3/1] overflow-hidden bg-slate-900 relative"
+      >
+        <img
+          src={featured.banner}
+          alt={featured.name}
+          class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500"
+          loading="eager"
+        />
+        <!-- Gradient overlay -->
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent"
+        >
+        </div>
+        <!-- Content on banner -->
+        <div class="absolute bottom-0 left-0 right-0 p-5 md:p-8">
+          <div class="flex items-center gap-2 mb-2">
+            <span
+              class="text-[8px] font-black uppercase tracking-wider bg-accent/20 text-accent border border-accent/30 px-2 py-0.5 rounded-sm backdrop-blur-sm"
+            >
+              {featured.contribution}
+            </span>
+            {
+              featured.platforms.map((p) => (
+                <span class="text-[8px] font-bold uppercase tracking-wider text-white/60 border border-white/20 px-1.5 py-0.5 rounded-sm backdrop-blur-sm">
+                  {p}
+                </span>
+              ))
+            }
+          </div>
+          <h3
+            class="text-xl md:text-2xl font-black text-white uppercase tracking-tight"
+          >
+            {featured.name}
+          </h3>
+          <p class="text-[12px] text-white/60 mt-1 max-w-lg">
+            {featured.tagline}
+          </p>
+        </div>
+      </div>
+    </div>
+  </button>
+
+  <!-- Rest of Projects Grid (2 cols mobile, 3 cols desktop) -->
+  <div class="grid grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
+    {
+      restProjects.map((project, index) => (
+        <button
+          class="project-card reveal-card group text-left cursor-pointer"
+          data-project-id={project.id}
+          style={`--reveal-delay: ${(index + 1) * 80}ms;`}
+        >
+          <div class="relative overflow-hidden rounded-sm border border-slate-100 dark:border-slate-800 hover:border-accent/40 transition-all duration-300 hover:shadow-lg hover:shadow-accent/5 hover:-translate-y-1 h-full flex flex-col bg-white dark:bg-[#0a0a0a]">
+            {/* Banner with overlay */}
+            <div class="aspect-[4/3] overflow-hidden bg-slate-900 relative">
+              <img
+                src={project.banner}
+                alt={project.name}
+                class="w-full h-full object-cover opacity-70 group-hover:opacity-90 group-hover:scale-110 transition-all duration-500"
+                loading="lazy"
+              />
+              {/* Gradient overlay */}
+              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+
+              {/* Name overlay on banner */}
+              <div class="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+                <h3 class="text-xs md:text-sm font-black text-white uppercase tracking-tight leading-tight">
+                  {project.name}
+                </h3>
+                <p class="text-[9px] md:text-[10px] text-white/50 mt-0.5 line-clamp-1">
+                  {project.tagline}
+                </p>
+              </div>
+            </div>
+
+            {/* Card footer */}
+            <div class="p-2.5 md:p-3 flex flex-wrap items-center gap-1 mt-auto">
+              <span class="text-[7px] md:text-[8px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-accent/10 text-emerald-700 dark:text-accent px-1.5 py-0.5 rounded-sm">
+                {project.contribution}
+              </span>
+              {project.platforms.map((platform) => (
+                <span class="text-[7px] md:text-[8px] font-bold uppercase text-slate-400 border border-slate-200 dark:border-slate-800 px-1 py-0.5 rounded-sm">
+                  {platform}
+                </span>
+              ))}
+            </div>
+          </div>
+        </button>
+      ))
+    }
+  </div>
+</section>
+
+<!-- Project Detail Modal -->
+<div id="project-modal" class="fixed inset-0 z-[100] hidden">
+  {/* Full-screen click target to close */}
+  <div
+    id="modal-outer"
+    class="absolute inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-3 md:p-8"
+  >
+    {/* Modal Content — stopPropagation prevents close when clicking inside */}
+    <div
+      id="modal-content"
+      class="relative bg-white dark:bg-[#0a0a0a] border border-slate-200 dark:border-slate-800 w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-sm modal-enter"
+    >
+      {/* Close Button */}
+      <button
+        id="modal-close"
+        class="absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center bg-black/80 dark:bg-white/80 rounded-sm hover:opacity-80 transition-opacity"
+      >
+        <span
+          class="material-symbols-outlined text-white dark:text-black text-lg"
+          >close</span
+        >
+      </button>
+
+      {/* Modal Banner */}
+      <div class="aspect-[4/3] overflow-hidden bg-slate-900 relative">
+        <img
+          id="modal-banner"
+          src=""
+          alt=""
+          class="w-full h-full object-cover opacity-70"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"
+        >
+        </div>
+      </div>
+
+      {/* Modal Body */}
+      <div class="p-5 md:p-8">
+        <h3
+          id="modal-name"
+          class="text-xl font-black text-black dark:text-white uppercase tracking-tight mb-1"
+        >
+        </h3>
+        <p
+          id="modal-tagline"
+          class="text-[11px] font-bold text-slate-500 uppercase tracking-wider mb-5"
+        >
+        </p>
+
+        {/* Contribution */}
+        <div class="mb-5">
+          <h4
+            class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2"
+          >
+            Contribution
+          </h4>
+          <div class="flex items-center gap-2">
+            <span
+              id="modal-contribution"
+              class="text-[9px] font-black uppercase tracking-wider bg-emerald-50 dark:bg-accent/10 text-emerald-700 dark:text-accent border border-emerald-200 dark:border-accent/20 px-2 py-1 rounded-sm"
+            ></span>
+          </div>
+        </div>
+
+        {/* Description */}
+        <div class="mb-5">
+          <h4
+            class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2"
+          >
+            Overview
+          </h4>
+          <p
+            id="modal-description"
+            class="text-[13px] leading-relaxed text-slate-600 dark:text-slate-400"
+          >
+          </p>
+        </div>
+
+        {/* What I Did */}
+        <div class="mb-5">
+          <h4
+            class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2"
+          >
+            What I Did
+          </h4>
+          <ul id="modal-whatidid" class="space-y-1.5"></ul>
+        </div>
+
+        {/* Platforms */}
+        <div class="mb-5">
+          <h4
+            class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2"
+          >
+            Platforms
+          </h4>
+          <div id="modal-platforms" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        {/* Tags */}
+        <div class="mb-5">
+          <h4
+            class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2"
+          >
+            Tags
+          </h4>
+          <div id="modal-tags" class="flex flex-wrap gap-1.5"></div>
+        </div>
+
+        {/* Links */}
+        <div
+          id="modal-links-section"
+          class="border-t border-slate-100 dark:border-slate-800 pt-5 hidden"
+        >
+          <h4
+            class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3"
+          >
+            Available On
+          </h4>
+          <div id="modal-links" class="flex flex-wrap gap-3"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  /* Scroll-reveal animation */
+  .reveal-card {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.5s ease,
+      transform 0.5s ease;
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal-card.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Modal entrance */
+  .modal-enter {
+    animation: modalSlideUp 0.25s ease-out;
+  }
+
+  @keyframes modalSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px) scale(0.98);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* Line clamp utility */
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
+
+<script define:vars={{ projects }}>
+  // ─── Project Data ───
+  const projectMap = {};
+  projects.forEach((p) => {
+    projectMap[p.id] = p;
+  });
+
+  // ─── Scroll Reveal (IntersectionObserver) ───
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("revealed");
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.1, rootMargin: "0px 0px -40px 0px" },
+  );
+
+  document.querySelectorAll(".reveal-card").forEach((card) => {
+    observer.observe(card);
+  });
+
+  // ─── Modal Logic ───
+  const modal = document.getElementById("project-modal");
+  const modalOuter = document.getElementById("modal-outer");
+  const modalContent = document.getElementById("modal-content");
+  const closeBtn = document.getElementById("modal-close");
+
+  function openModal(projectId) {
+    const project = projectMap[projectId];
+    if (!project) return;
+
+    document.getElementById("modal-banner").src = project.banner;
+    document.getElementById("modal-banner").alt = project.name;
+    document.getElementById("modal-name").textContent = project.name;
+    document.getElementById("modal-tagline").textContent = project.tagline;
+    document.getElementById("modal-contribution").textContent =
+      project.contribution;
+    document.getElementById("modal-description").textContent =
+      project.description;
+
+    // What I Did
+    document.getElementById("modal-whatidid").innerHTML = project.whatIDid
+      .map(
+        (item) =>
+          `<li class="flex items-start gap-2 text-[12px] text-slate-600 dark:text-slate-400"><span class="text-accent mt-0.5 text-[8px]">●</span>${item}</li>`,
+      )
+      .join("");
+
+    // Platforms
+    document.getElementById("modal-platforms").innerHTML = project.platforms
+      .map((p) => `<span class="tech-tag">${p}</span>`)
+      .join("");
+
+    // Tags
+    document.getElementById("modal-tags").innerHTML = project.tags
+      .map((t) => `<span class="tech-tag">${t}</span>`)
+      .join("");
+
+    // Links
+    const linksSection = document.getElementById("modal-links-section");
+    const linksContainer = document.getElementById("modal-links");
+    if (project.links && project.links.length > 0) {
+      linksSection.classList.remove("hidden");
+      const linkLabels = {
+        appstore: { label: "App Store", icon: "phone_iphone" },
+        playstore: { label: "Play Store", icon: "android" },
+        web: { label: "Web App", icon: "language" },
+      };
+      linksContainer.innerHTML = project.links
+        .map((link) => {
+          const info = linkLabels[link.type] || {
+            label: link.type,
+            icon: "link",
+          };
+          return `<a href="${link.url}" target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 px-3 py-2 bg-black dark:bg-white text-white dark:text-black text-[10px] font-bold uppercase tracking-wider hover:opacity-80 transition-opacity rounded-sm"><span class="material-symbols-outlined text-sm">${info.icon}</span>${info.label}</a>`;
+        })
+        .join("");
+    } else {
+      linksSection.classList.add("hidden");
+    }
+
+    // Re-trigger modal animation
+    modalContent.classList.remove("modal-enter");
+    void modalContent.offsetWidth; // force reflow
+    modalContent.classList.add("modal-enter");
+
+    modal.classList.remove("hidden");
+    document.body.style.overflow = "hidden";
+  }
+
+  function closeModal() {
+    modal.classList.add("hidden");
+    document.body.style.overflow = "";
+  }
+
+  // Card clicks
+  document.querySelectorAll(".project-card").forEach((card) => {
+    card.addEventListener("click", () => {
+      openModal(card.getAttribute("data-project-id"));
+    });
+  });
+
+  // Close on X button
+  closeBtn?.addEventListener("click", closeModal);
+
+  // Close on clicking OUTSIDE modal content (backdrop area)
+  modalOuter?.addEventListener("click", (e) => {
+    // Only close if the click target is the outer wrapper itself, not the content inside
+    if (e.target === modalOuter || !modalContent?.contains(e.target)) {
+      closeModal();
+    }
+  });
+
+  // Prevent clicks inside modal content from bubbling to outer
+  modalContent?.addEventListener("click", (e) => {
+    e.stopPropagation();
+  });
+
+  // Escape key
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeModal();
+  });
+</script>

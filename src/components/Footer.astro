@@ -1,0 +1,39 @@
+---
+/**
+ * Footer component.
+ * Site footer with version info and external links.
+ */
+
+const links = [
+  { href: "https://github.com/dimassalah", label: "GitHub" },
+  { href: "https://www.linkedin.com/in/dimassalahuddin/", label: "LinkedIn" },
+  {
+    href: "https://www.upwork.com/freelancers/~01f7920f4123d5e681?mp_source=share",
+    label: "Upwork",
+  },
+  { href: "mailto:dimassalah10@gmail.com", label: "Email" },
+];
+---
+
+<footer
+  class="pt-8 border-t border-slate-100 dark:border-slate-900 flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] font-black uppercase text-slate-400"
+>
+  <div>Dimas Salahuddin // VER. 2026</div>
+  <div class="flex gap-6">
+    {
+      links.map((link) => {
+        const isMail = link.href.startsWith("mailto:");
+        return (
+          <a
+            class="hover:text-black dark:hover:text-white transition-colors"
+            href={link.href}
+            target={isMail ? undefined : "_blank"}
+            rel={isMail ? undefined : "noopener noreferrer"}
+          >
+            {link.label}
+          </a>
+        );
+      })
+    }
+  </div>
+</footer>

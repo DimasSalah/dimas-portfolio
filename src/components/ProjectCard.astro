@@ -1,0 +1,75 @@
+---
+/**
+ * WorkCard component.
+ * Reusable card for each work history entry.
+ * Props: company, role, period, description, highlights (key achievements as short strings).
+ */
+
+interface Props {
+  company: string;
+  role: string;
+  period: string;
+  description: string;
+  highlights: string[];
+  isLast?: boolean;
+}
+
+const {
+  company,
+  role,
+  period,
+  description,
+  highlights,
+  isLast = false,
+} = Astro.props;
+---
+
+<div class:list={[isLast ? "mb-8" : "mb-20", "relative"]}>
+  <div class="timeline-dot"></div>
+
+  <div class="flex flex-col md:flex-row md:items-baseline gap-2 mb-4">
+    <span
+      class="text-[10px] font-black uppercase tracking-widest text-slate-400"
+    >
+      {period}
+    </span>
+    <h3
+      class="text-xl font-bold text-black dark:text-white uppercase tracking-tight"
+    >
+      {company}
+    </h3>
+  </div>
+
+  <div class="lg:max-w-xl">
+    <!-- Role -->
+    <div class="mb-3">
+      <span class="tech-tag">{role}</span>
+    </div>
+
+    <!-- Description -->
+    <p
+      class="text-[14px] leading-relaxed mb-5 text-slate-600 dark:text-slate-400"
+    >
+      {description}
+    </p>
+
+    <!-- Key Highlights -->
+    <div class="border-t border-slate-100 dark:border-slate-800 pt-4">
+      <h4
+        class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3"
+      >
+        Key Highlights
+      </h4>
+      <ul class="space-y-1.5">
+        {
+          highlights.map((item) => (
+            <li class="flex items-start gap-2 text-[12px] text-slate-600 dark:text-slate-400">
+              <span class="text-accent mt-0.5 text-[8px]">●</span>
+              {item}
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+---
+/**
+ * StackIndex component.
+ * Expanded with sub-categories, each with its own items.
+ * Data-driven rendering via structured arrays.
+ */
+
+interface StackCategory {
+  title: string;
+  items: string[];
+}
+
+const categories: StackCategory[] = [
+  {
+    title: "Mobile & Web Development",
+    items: ["Flutter", "Dart", "Kotlin", "Swift"],
+  },
+  {
+    title: "Backend & Integration",
+    items: ["REST APIs", "Firebase", "Supabase"],
+  },
+  {
+    title: "AI Integration",
+    items: ["ChatGPT API", "Gemini API"],
+  },
+  {
+    title: "Payment Systems",
+    items: ["Stripe", "RevenueCat", "Google Pay", "Apple Pay"],
+  },
+  {
+    title: "Development Tools",
+    items: ["Cursor IDE", "Figma", "Postman", "Xcode", "ChatGPT"],
+  },
+  {
+    title: "Project Management",
+    items: ["Slack", "Monday.com", "ClickUp"],
+  },
+];
+---
+
+<section class="mb-24" id="stack">
+  <h2 class="section-label">Stack Index</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mt-6">
+    {
+      categories.map((category) => (
+        <div>
+          <h3 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3 border-b border-slate-100 dark:border-slate-800 pb-2">
+            {category.title}
+          </h3>
+          <div class="flex flex-wrap gap-1.5">
+            {category.items.map((item) => (
+              <span class="flex items-center gap-1.5 text-[11px] font-bold text-slate-600 dark:text-slate-400">
+                {item} <span class="text-accent text-[8px]">●</span>
+              </span>
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
