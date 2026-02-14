@@ -1,11 +1,5 @@
 ---
-/**
- * Sidebar navigation component.
- * - Responsive: collapses to hamburger menu on mobile, close button inline with logo
- * - Branding: uses d-logo.svg
- * - Download Resume button replaces version badge
- * - Active state updated via ScrollSpy on home page
- */
+
 import dLogo from "../assets/d-logo.svg";
 
 interface Props {
@@ -16,7 +10,7 @@ const { currentPath = "/" } = Astro.props;
 const isHome = currentPath === "/";
 
 interface NavItem {
-  id: string; // section ID
+  id: string; 
   icon: string;
   label: string;
 }
@@ -29,13 +23,11 @@ const mainStructure: NavItem[] = [
   { id: "stack", icon: "layers", label: "Stack Index" },
 ];
 
-// Helper to generate correct href
 const getHref = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 
 const resumeUrl = "#";
 ---
 
-<!-- Mobile Hamburger Button (visible only when sidebar is closed) -->
 <button
   id="menu-toggle"
   class="fixed top-4 left-4 z-[60] md:hidden w-10 h-10 flex items-center justify-center bg-black dark:bg-white rounded-md shadow-lg"
@@ -46,25 +38,23 @@ const resumeUrl = "#";
   >
 </button>
 
-<!-- Overlay (mobile only) -->
 <div
   id="sidebar-overlay"
   class="fixed inset-0 bg-black/50 z-40 hidden md:hidden transition-opacity duration-300"
 >
 </div>
 
-<!-- Sidebar -->
 <aside
   id="sidebar"
   class="fixed h-screen w-64 border-r border-slate-100 dark:border-slate-900 bg-white dark:bg-[#050505] z-50 overflow-y-auto transition-transform duration-300 -translate-x-full md:translate-x-0"
 >
-  <!-- Branding row: logo + close button -->
+  
   <div class="p-6 pb-4">
     <div class="flex items-center justify-between">
       <a href="/" class="block">
         <img src={dLogo.src} alt="Logo" class="h-10 w-auto" />
       </a>
-      <!-- Close button: inline, only visible on mobile when sidebar is open -->
+      
       <button
         id="menu-close"
         class="md:hidden w-8 h-8 flex items-center justify-center rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
@@ -84,7 +74,6 @@ const resumeUrl = "#";
     </div>
   </div>
 
-  <!-- Navigation -->
   <nav class="mt-8 space-y-1">
     {
       mainStructure.map((item) => (
@@ -110,7 +99,6 @@ const resumeUrl = "#";
     </a>
   </nav>
 
-  <!-- Download Resume -->
   <div class="absolute bottom-8 left-8 right-8">
     <a
       href={resumeUrl}
@@ -125,7 +113,7 @@ const resumeUrl = "#";
 </aside>
 
 <script>
-  // Mobile Menu Logic
+
   const toggleBtn = document.getElementById("menu-toggle");
   const closeBtn = document.getElementById("menu-close");
   const sidebar = document.getElementById("sidebar");
@@ -149,7 +137,6 @@ const resumeUrl = "#";
   closeBtn?.addEventListener("click", closeSidebar);
   overlay?.addEventListener("click", closeSidebar);
 
-  // Close sidebar on link click (mobile)
   sidebar?.querySelectorAll(".sidebar-link").forEach((link) => {
     link.addEventListener("click", () => {
       if (window.innerWidth < 768) {
@@ -158,23 +145,22 @@ const resumeUrl = "#";
     });
   });
 
-  // Scroll Spy Logic (only if on home page)
   if (window.location.pathname === "/") {
     const navLinks = document.querySelectorAll(".nav-item");
     const sections = document.querySelectorAll("section[id]");
 
     const observerOptions = {
       root: null,
-      rootMargin: "-20% 0px -70% 0px", // adjust to trigger active state earlier/later
+      rootMargin: "-20% 0px -70% 0px", 
       threshold: 0,
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          // Remove active from all
+
           navLinks.forEach((link) => link.classList.remove("active"));
-          // Add active to current
+
           const id = entry.target.getAttribute("id");
           const activeLink = document.querySelector(
             `.nav-item[data-target="${id}"]`,

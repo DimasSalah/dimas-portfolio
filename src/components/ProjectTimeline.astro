@@ -1,11 +1,4 @@
 ---
-/**
- * WorkHistory component (formerly ProjectTimeline).
- * Real CV work history entries with journey-style scroll animations.
- * - Timeline line draws progressively as user scrolls
- * - Dots pulse and glow when entries come into view
- * - Content slides in with staggered reveal
- */
 
 interface WorkEntry {
   company: string;
@@ -19,9 +12,9 @@ const workHistory: WorkEntry[] = [
   {
     company: "Upwork",
     role: "Full-Time Freelance Flutter Developer",
-    period: "Jul 2024 – Present",
+    period: "Jul 2024 - Present",
     description:
-      "Delivering production-ready mobile and web applications for international clients across diverse industries — AI integrations, payment systems, IoT dashboards, and enterprise tools.",
+      "Delivering production-ready mobile and web applications for international clients across diverse industries — SaaS, AI integrations, payment systems, IoT dashboards, and enterprise tools.",
     highlights: [
       "16+ total jobs and counting, Top Rated badge, 100% Job Success Score",
       "SaaS, AI, payments, IoT & enterprise solutions",
@@ -31,7 +24,7 @@ const workHistory: WorkEntry[] = [
   {
     company: "Crackin'Code",
     role: "Freelance Flutter Developer",
-    period: "Nov 2024 – Jan 2025",
+    period: "Nov 2024 - Jan 2025",
     description:
       "Collaborated with a distributed team to deliver mobile features, integrate REST APIs, and optimize existing modules for performance and usability.",
     highlights: [
@@ -43,7 +36,7 @@ const workHistory: WorkEntry[] = [
   {
     company: "PT Baracipta Esa Engineering",
     role: "Flutter Developer Intern",
-    period: "Aug 2023 – Dec 2023",
+    period: "Aug 2023 - Dec 2023",
     description:
       "Worked with UI/UX designers and backend engineers to deliver production-ready mobile features with real-time data processing and responsive interfaces.",
     highlights: [
@@ -58,12 +51,12 @@ const workHistory: WorkEntry[] = [
 <section class="mb-24" id="history">
   <h2 class="section-label">Work History</h2>
   <div class="mt-8 relative ml-2 md:ml-4 pl-8 md:pl-12">
-    <!-- Static background line (faint) -->
+    
     <div
       class="absolute left-0 top-0 bottom-0 w-px bg-slate-200/50 dark:bg-slate-800/50"
     >
     </div>
-    <!-- Animated progress line (draws as user scrolls) -->
+    
     <div
       id="timeline-progress"
       class="absolute left-0 top-0 w-px bg-accent origin-top"
@@ -80,10 +73,9 @@ const workHistory: WorkEntry[] = [
           ]}
           style={`--entry-delay: ${index * 150}ms;`}
         >
-          {/* Timeline Dot */}
+          
           <div class="journey-dot absolute left-[-5px] top-2 w-2.5 h-2.5 rounded-full border-2 border-white dark:border-[#050505] z-10 bg-slate-300 dark:bg-slate-700 transition-all duration-500" />
 
-          {/* Entry Content */}
           <div class="journey-content">
             <div class="flex flex-col md:flex-row md:items-baseline gap-2 mb-4">
               <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">
@@ -95,17 +87,15 @@ const workHistory: WorkEntry[] = [
             </div>
 
             <div class="lg:max-w-xl">
-              {/* Role */}
+              
               <div class="mb-3">
                 <span class="tech-tag">{job.role}</span>
               </div>
 
-              {/* Description */}
               <p class="text-[14px] leading-relaxed mb-5 text-slate-600 dark:text-slate-400">
                 {job.description}
               </p>
 
-              {/* Key Highlights */}
               <div class="border-t border-slate-100 dark:border-slate-800 pt-4">
                 <h4 class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3">
                   Key Highlights
@@ -128,9 +118,7 @@ const workHistory: WorkEntry[] = [
 </section>
 
 <style>
-  /* ──────────────────────────────────────────────────
-   * ANIMASI KONTEN TEKS (muncul saat masuk layar, independen dari garis hijau)
-   * ────────────────────────────────────────────────── */
+  
   .journey-content {
     opacity: 0;
     transform: translateX(-12px);
@@ -144,7 +132,6 @@ const workHistory: WorkEntry[] = [
     transform: translateX(0);
   }
 
-  /* Journey dot — default (inactive) */
   .journey-dot {
     transition:
       background-color 0.4s ease,
@@ -152,7 +139,6 @@ const workHistory: WorkEntry[] = [
       transform 0.4s ease;
   }
 
-  /* Journey dot — lights up when green line reaches it */
   .journey-entry.dot-active .journey-dot {
     background-color: #00ff66;
     box-shadow:
@@ -161,20 +147,19 @@ const workHistory: WorkEntry[] = [
     transform: scale(1.3);
   }
 
-  /* Journey dot — inactive (reverts when green line scrolls away) */
   .journey-entry:not(.dot-active) .journey-dot {
-    background-color: rgb(203 213 225); /* slate-300 */
+    background-color: rgb(203 213 225); 
     box-shadow: none;
     transform: scale(1);
   }
 
   :global(.dark) .journey-entry:not(.dot-active) .journey-dot {
-    background-color: rgb(51 65 85); /* slate-700 */
+    background-color: rgb(51 65 85); 
   }
 </style>
 
 <script>
-  // ─── 1. KONTEN TEKS: muncul cepat saat masuk viewport (sekali) ───
+
   const contentObserver = new IntersectionObserver(
     (observed) => {
       observed.forEach((entry) => {
@@ -191,7 +176,6 @@ const workHistory: WorkEntry[] = [
     contentObserver.observe(entry);
   });
 
-  // ─── 2. DOT + GARIS HIJAU: ikut posisi scroll (bi-directional) ───
   const entries = document.querySelectorAll(".journey-entry");
   const progressLine = document.getElementById("timeline-progress");
   const section = document.getElementById("history");
@@ -205,16 +189,6 @@ const workHistory: WorkEntry[] = [
     const containerHeight = containerRect.height;
     const viewportHeight = window.innerHeight;
 
-    // ──────────────────────────────────────────────────
-    // 🎛️ SETTING KECEPATAN GARIS HIJAU
-    //
-    // Rumus: viewportHeight * ANGKA
-    //
-    // ANGKA lebih besar (misal 0.7) = garis hijau LEBIH CEPAT
-    // ANGKA lebih kecil (misal 0.2) = garis hijau LEBIH LAMBAT
-    //
-    // Default: 0.6  |  Coba: 0.5, 0.7, 0.8
-    // ──────────────────────────────────────────────────
     const scanLineY = viewportHeight * 0.6;
     const scrolledPx = scanLineY - containerTop;
 
@@ -223,7 +197,6 @@ const workHistory: WorkEntry[] = [
 
     const lineTipPx = progress * containerHeight;
 
-    // Dot: aktif jika garis hijau sudah sampai, mati jika belum
     entries.forEach((entry) => {
       const el = entry as HTMLElement;
       const entryOffsetTop = el.offsetTop + 8;

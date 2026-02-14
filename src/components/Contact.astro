@@ -1,15 +1,12 @@
 ---
-/**
- * Contact section component.
- * Displays contact information and social links using branded SVG assets.
- */
+
 import githubIcon from "../assets/github.svg";
 import linkedinIcon from "../assets/linkedin.svg";
 import upworkIcon from "../assets/upwork.svg";
 
 interface ContactLink {
   iconAsset?: ImageMetadata;
-  iconName?: string; // Fallback for email if no SVG
+  iconName?: string;
   label: string;
   href: string;
   isEmail?: boolean;

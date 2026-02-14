@@ -1,9 +1,4 @@
 ---
-/**
- * WorkCard component.
- * Reusable card for each work history entry.
- * Props: company, role, period, description, highlights (key achievements as short strings).
- */
 
 interface Props {
   company: string;
@@ -41,19 +36,17 @@ const {
   </div>
 
   <div class="lg:max-w-xl">
-    <!-- Role -->
+    
     <div class="mb-3">
       <span class="tech-tag">{role}</span>
     </div>
 
-    <!-- Description -->
     <p
       class="text-[14px] leading-relaxed mb-5 text-slate-600 dark:text-slate-400"
     >
       {description}
     </p>
 
-    <!-- Key Highlights -->
     <div class="border-t border-slate-100 dark:border-slate-800 pt-4">
       <h4
         class="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-3"
