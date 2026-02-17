@@ -1,5 +1,4 @@
 ---
-
 import dLogo from "../assets/d-logo.svg";
 
 interface Props {
@@ -7,10 +6,9 @@ interface Props {
 }
 
 const { currentPath = "/" } = Astro.props;
-const isHome = currentPath === "/";
 
 interface NavItem {
-  id: string; 
+  id: string;
   icon: string;
   label: string;
 }
@@ -22,8 +20,6 @@ const mainStructure: NavItem[] = [
   { id: "projects", icon: "apps", label: "Projects" },
   { id: "stack", icon: "layers", label: "Stack Index" },
 ];
-
-const getHref = (id: string) => (isHome ? `#${id}` : `/#${id}`);
 
 const resumeUrl = "#";
 ---
@@ -48,13 +44,12 @@ const resumeUrl = "#";
   id="sidebar"
   class="fixed h-screen w-64 border-r border-slate-100 dark:border-slate-900 bg-white dark:bg-[#050505] z-50 overflow-y-auto transition-transform duration-300 -translate-x-full md:translate-x-0"
 >
-  
   <div class="p-6 pb-4">
     <div class="flex items-center justify-between">
       <a href="/" class="block">
         <img src={dLogo.src} alt="Logo" class="h-10 w-auto" />
       </a>
-      
+
       <button
         id="menu-close"
         class="md:hidden w-8 h-8 flex items-center justify-center rounded-md hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
@@ -76,16 +71,20 @@ const resumeUrl = "#";
 
   <nav class="mt-8 space-y-1">
     {
-      mainStructure.map((item) => (
-        <a
-          class:list={["sidebar-link", "nav-item"]}
-          href={getHref(item.id)}
-          data-target={item.id}
-        >
-          <span class="material-symbols-outlined nav-icon">{item.icon}</span>
-          {item.label}
-        </a>
-      ))
+      mainStructure.map((item) => {
+        const isOnHomePage = currentPath === "/";
+        return (
+          <a
+            class="sidebar-link nav-item"
+            href="/"
+            data-scroll-to={item.id}
+            data-is-home={isOnHomePage}
+          >
+            <span class="material-symbols-outlined nav-icon">{item.icon}</span>
+            {item.label}
+          </a>
+        );
+      })
     }
 
     <div class="h-px bg-slate-100 dark:bg-slate-900 my-4 mx-6"></div>
@@ -113,7 +112,6 @@ const resumeUrl = "#";
 </aside>
 
 <script>
-
   const toggleBtn = document.getElementById("menu-toggle");
   const closeBtn = document.getElementById("menu-close");
   const sidebar = document.getElementById("sidebar");
@@ -137,36 +135,87 @@ const resumeUrl = "#";
   closeBtn?.addEventListener("click", closeSidebar);
   overlay?.addEventListener("click", closeSidebar);
 
-  sidebar?.querySelectorAll(".sidebar-link").forEach((link) => {
-    link.addEventListener("click", () => {
+  // Navigation handling
+  const navLinks = document.querySelectorAll("[data-scroll-to]");
+  navLinks.forEach((link) => {
+    link.addEventListener("click", (e) => {
+      e.preventDefault(); // Always prevent default to avoid hash in URL
+
+      const isHome = link.getAttribute("data-is-home") === "true";
+      const targetId = link.getAttribute("data-scroll-to");
+
+      if (isHome) {
+        // We're on home page - smooth scroll directly
+        if (targetId) {
+          const targetSection = document.getElementById(targetId);
+
+          if (targetSection) {
+            targetSection.scrollIntoView({
+              behavior: "smooth",
+              block: "start",
+            });
+
+            // Update active state
+            navLinks.forEach((btn) => btn.classList.remove("active"));
+            link.classList.add("active");
+          }
+        }
+      } else {
+        // We're on another page - navigate to home with section stored
+        if (targetId) {
+          sessionStorage.setItem("scrollToSection", targetId);
+          window.location.href = "/";
+        }
+      }
+
+      // Close sidebar on mobile
       if (window.innerWidth < 768) {
         closeSidebar();
       }
     });
   });
 
-  if (window.location.pathname === "/") {
-    const navLinks = document.querySelectorAll(".nav-item");
-    const sections = document.querySelectorAll("section[id]");
+  // Check if we need to scroll after navigation from another page
+  const scrollToSection = sessionStorage.getItem("scrollToSection");
+  if (scrollToSection) {
+    sessionStorage.removeItem("scrollToSection");
 
+    setTimeout(() => {
+      const targetSection = document.getElementById(scrollToSection);
+      if (targetSection) {
+        targetSection.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+
+        navLinks.forEach((btn) => btn.classList.remove("active"));
+        const activeBtn = document.querySelector(
+          `[data-scroll-to="${scrollToSection}"]`,
+        );
+        if (activeBtn) {
+          activeBtn.classList.add("active");
+        }
+      }
+    }, 100);
+  }
+
+  // Intersection Observer for active state (only on home page)
+  if (window.location.pathname === "/") {
+    const sections = document.querySelectorAll("section[id]");
     const observerOptions = {
       root: null,
-      rootMargin: "-20% 0px -70% 0px", 
+      rootMargin: "-20% 0px -70% 0px",
       threshold: 0,
     };
 
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-
-          navLinks.forEach((link) => link.classList.remove("active"));
-
           const id = entry.target.getAttribute("id");
-          const activeLink = document.querySelector(
-            `.nav-item[data-target="${id}"]`,
-          );
-          if (activeLink) {
-            activeLink.classList.add("active");
+          navLinks.forEach((btn) => btn.classList.remove("active"));
+          const activeBtn = document.querySelector(`[data-scroll-to="${id}"]`);
+          if (activeBtn) {
+            activeBtn.classList.add("active");
           }
         }
       });
